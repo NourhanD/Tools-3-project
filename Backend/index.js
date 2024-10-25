@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 5000; 
 app.use(express.json());
-app.post('/users', async (req, res) => {
+app.post('/register', async (req, res) => {
   const { name, email, password, phone } = req.body;
   try {
     const newUser = await User.register(name, email, password, phone);
