@@ -6,10 +6,10 @@ const app = require('../index');
 describe('Smoke Tests', () => { 
   it('should return a 200 OK for the register endpoint', async () => {
     const response = await request(app).post('/register').send({
-      firstName: 'hesham',
+      firstName: 'Nourhan',
       lastName: 'darwish',
-      phoneNumber: '1650486010',
-      email: 'hesham@example.com',
+      phoneNumber: '0100123456',
+      email: 'nourhan@example.com',
       password: 'password123',
     
     });
@@ -18,7 +18,7 @@ describe('Smoke Tests', () => {
 
   it('should return a 200 OK for the login endpoint', async () => {
     const response = await request(app).post('/login').send({
-      email: 'jana@example.com',
+      email: 'nourhan@example.com',
       password: 'password123'
     });
     expect(response.statusCode).toBe(200);
