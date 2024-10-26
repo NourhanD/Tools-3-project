@@ -2,10 +2,10 @@
 const pool = require('../db'); 
 
 class User {
-  static async register(name, email, password, phone) {
+  static async register(firstName, lastName, phoneNumber, email, password) {
 
-    const query = 'INSERT INTO "User" ("name", "email", "password", "phone") VALUES ($1, $2, $3, $4) RETURNING *'; 
-    const values = [name, email, password, phone];
+    const query = 'INSERT INTO "User" ("firstName", "lastName", "phoneNumber", "email", "password") VALUES ($1, $2, $3, $4, $5) RETURNING *'; 
+    const values = [firstName, lastName, phoneNumber, email, password];
     try {
       const result = await pool.query(query, values);
       return result.rows[0];
