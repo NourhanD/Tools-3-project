@@ -2,9 +2,9 @@ const User = require('./model/User');
 
 // Create a new user
 const register = async (req, res) => {
-  const { name, email, password, phone } = req.body;
+  const { firstName, lastName, phoneNumber, email, password  } = req.body;
   try {
-    const newUser = await User.createUser(name, email, password, phone);
+    const newUser = await User.createUser(firstName, lastName, phoneNumber, email, password );
     res.status(201).json(newUser);
   } catch (err) {
     console.error('Error creating user:', err);
