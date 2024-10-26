@@ -1,12 +1,13 @@
 const User = require('./Model/user');
 const express = require('express');
+const pool = require('./db');
 const app = express();
 const PORT = process.env.PORT || 5000; 
 app.use(express.json());
 app.post('/register', async (req, res) => {
-  const { name, email, password, phone } = req.body;
+  const { firstName, lastName, phoneNumber, email, password } = req.body;
   try {
-    const newUser = await User.register(name, email, password, phone);
+    const newUser = await User.register(firstName, lastName, phoneNumber, email, password);
     res.status(201).json(newUser);
   } catch (err) {
     res.status(500).json({ error: 'Failed to create user' });
@@ -34,6 +35,16 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Login failed' });
   }
 });
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}/`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}/`);
+  });
+  pool.connect((err) => {
+    if (err) {
+      console.error('Error connecting to the database:', err);
+    } else {
+      console.log('Connected to PostgreSQL database');
+    }
+  });
+}
+module.exports = app;
