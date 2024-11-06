@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import swal from 'sweetalert'; // Ensure you have this import for swal
+import swal from 'sweetalert'; 
 
 function CreateOrder() {
     const navigate = useNavigate();
@@ -12,7 +12,7 @@ function CreateOrder() {
         deliveryTime :''
     });
     
-    // Sets the input field with specific value
+    
     const handleChange = (e) => {
         const { id, value } = e.target; 
         setFormData((prevData) => ({
@@ -74,22 +74,23 @@ function CreateOrder() {
                     
                     <div className="mb-3">
                             <label htmlFor="pickup" className="form-label">Pickup Location</label>
-                            <input type="text" id="pickup" className="form-control" value={formData.pickup} onChange={handleChange} />
+                            <input type="text" id="pickup" className="form-control" value={formData.pickup} onChange={handleChange} required />
                         </div>
         
                         <div className="mb-3">
                             <label htmlFor="dropoff" className="form-label">Dropoff Location</label>
-                            <input type="text" id="dropoff" className="form-control" value={formData.dropoff} onChange={handleChange} />
+                            <input type="text" id="dropoff" className="form-control" value={formData.dropoff} onChange={handleChange} required/>
                         </div>
 
                         <div className="mb-3">
                             <label htmlFor="packageDetails" className="form-label">Package Details</label>
-                            <input type="text" id="packageDetails" className="form-control" value={formData.packageDetails} onChange={handleChange} />
+                            <input type="text" id="packageDetails" className="form-control" value={formData.packageDetails} onChange={handleChange } required/>
                         </div>
 
                         <div className="mb-3">
                             <label htmlFor="deliveryTime" className="form-label" style={{marginTop:"15px"}}>Delivery Time</label>
-                            <select style={{marginLeft:"20px"}} value={formData.deliveryTime} onChange={handleChange}>
+                            <select id="deliveryTime" name="deliveryTime" style={{ marginLeft: "20px" }} value={formData.deliveryTime} onChange={handleChange}>
+                                <option> Select </option>
                                 <option> 8 am </option>
                                 <option> 9 am </option>
                                 <option> 10 am </option>
