@@ -6,6 +6,9 @@ import UserHomePage from './Pages/UserHomePage'
 import CreateOrderPage from './Pages/CreateOrderPage'
 import './App.css';
 import LoginPage from './Pages/LoginPage';
+import OrderDetailsPage from './Pages/OrderDetailsPage';
+
+
 
 function App() 
 {
@@ -19,6 +22,7 @@ function App()
     <Route path="/register" element={<RegisterPage />} />
     <Route path="/home" element={<UserHomePage/>} />
     <Route path="/createOrderPage" element={<CreateOrderPage/>} />
+    <Route path="/orderDetails" element={<OrderDetailsPage/>} />
     
     <Route path="*" element ={<PageNotFound/>} />
     </Routes>
