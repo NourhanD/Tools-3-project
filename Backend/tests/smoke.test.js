@@ -11,7 +11,7 @@ describe('Smoke Tests', () => {
       phoneNumber: '0100123456',
       email: 'nourhan@example.com',
       password: 'password123',
-    
+      role: 'customer'
     });
     expect(response.statusCode).toBe(201);
   });
