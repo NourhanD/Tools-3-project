@@ -10,7 +10,8 @@ function RegisterForm() {
     lastName: '',
     phoneNumber: '',
     email: '',
-    password: ''
+    password: '', 
+    role:''
   });
 
   // Sets the input field with specific value
@@ -75,30 +76,43 @@ function RegisterForm() {
 
             <div className="mb-3">
               <label htmlFor="firstName" className="form-label">First Name</label>
-              <input type="text" id="firstName" className="form-control" value={formData.firstName} onChange={handleChange} />
+              <input type="text" id="firstName" className="form-control" value={formData.firstName} onChange={handleChange} required />
             </div>
 
             <div className="mb-3">
               <label htmlFor="lastName" className="form-label">Last Name</label>
-              <input type="text" id="lastName" className="form-control" value={formData.lastName} onChange={handleChange} />
+              <input type="text" id="lastName" className="form-control" value={formData.lastName} onChange={handleChange} required/>
             </div>
 
             <div className="mb-3">
               <label htmlFor="phoneNumber" className="form-label">Phone Number</label>
-              <input type="tel" id="phoneNumber" className="form-control" value={formData.phoneNumber} onChange={handleChange} />
+              <input type="tel" id="phoneNumber" className="form-control" value={formData.phoneNumber} onChange={handleChange} required/>
             </div>
 
             <div className="mb-3">
               <label htmlFor="email" className="form-label">Email</label>
-              <input type="email" id="email" className="form-control" value={formData.email} onChange={handleChange} />
+              <input type="email" id="email" className="form-control" value={formData.email} onChange={handleChange} required />
             </div>
 
             <div className="mb-3">
               <label htmlFor="password" className="form-label">Password</label>
-              <input type="password" id="password" className="form-control" value={formData.password} onChange={handleChange} />
-              <div id="passwordHelpBlock" className="form-text" style={{ fontWeight: "lighter" }}>
-                Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
-              </div>
+              <input type="password" id="password" className="form-control" value={formData.password} onChange={handleChange} required/>
+            </div>
+
+            <div className="mb-3">
+              <label htmlFor="role" className="form-label">Select Your Role to Get Started</label>
+              <select
+                id="role"
+                name="role"
+                style={{ marginLeft: "20px" }}
+                value={formData.role}
+                onChange={handleChange}
+                required
+              >
+                <option value="" disabled>Select</option>
+                <option value="Customer">Customer</option>
+                <option value="Courier">Courier</option>
+              </select>
             </div>
 
             <div className="d-grid gap-2 col-6 mx-auto">
