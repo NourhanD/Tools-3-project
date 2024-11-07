@@ -22,6 +22,7 @@ const login = async (req, res) => {
   try {
     
     const user = await User.findByEmail(email);
+    console.log(user);
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
@@ -44,7 +45,6 @@ const login = async (req, res) => {
 const createOrder = async (req, res) => {
   try {
     const userId = req.user.id; 
-    
     const { pickup_loc, dropoff_loc,  package_details, delivery_time } = req.body;
 
     if (!pickup_loc || !dropoff_loc || !package_details || !delivery_time) {
@@ -60,8 +60,7 @@ const createOrder = async (req, res) => {
     res.status(500).json({ error: 'Failed to create order' });
   }
 };
-
-//Get order
+//get user orders
 const getUserOrders = async (req, res) => {
   try {
     const userId = req.user.id; 
@@ -77,10 +76,23 @@ const getUserOrders = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch orders' });
   }
 };
-
+// get a certain order details
+const getOrderById = async (req, res) => {
+  const { orderId } = req.params;
+  const userId = req.user.id; 
+  try
+  {
+    const order = await Order.getOrderById(userId, orderId); 
+    res.status(200).json(order); 
+  } catch (err) {
+    console.error('Error fetching order details:', err);
+    res.status(404).json({ error: err.message }); 
+  }
+};
 module.exports = {
   register,
   login,
   createOrder,
-  getUserOrders
+  getUserOrders,
+  getOrderById
 };
