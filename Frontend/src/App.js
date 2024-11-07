@@ -7,11 +7,18 @@ import CreateOrderPage from './Pages/CreateOrderPage'
 import './App.css';
 import LoginPage from './Pages/LoginPage';
 import OrderDetailsPage from './Pages/OrderDetailsPage';
+import CourierHomePage from './Pages/CourierHomePage';
+import UpdateOrderStatus from './Pages/UpdateOrderStatusPage'
 
 
 
 function App() 
 {
+  const isAuthenticated = !!localStorage.getItem('authToken');
+  
+  const AuthenticatedRoute = ({ element }) => {
+    return isAuthenticated ? element : <Navigate to="/login" />;
+  }
   return (
     <div className="App">
     <BrowserRouter>
@@ -20,9 +27,14 @@ function App()
     <Route path="/" element={<LoginPage />} />
     <Route path="/login" element={<LoginPage />} />
     <Route path="/register" element={<RegisterPage />} />
-    <Route path="/home" element={<UserHomePage/>} />
+    <Route path="/home" element={<UserHomePage />} />
     <Route path="/createOrderPage" element={<CreateOrderPage/>} />
     <Route path="/orderDetails" element={<OrderDetailsPage/>} />
+    <Route path="/courierHome" element={<CourierHomePage/>} />
+    <Route path="/UpdateOrderStatus" element={<UpdateOrderStatus/>} />
+
+
+    
     
     <Route path="*" element ={<PageNotFound/>} />
     </Routes>
