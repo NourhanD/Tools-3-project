@@ -11,14 +11,11 @@ const PORT = process.env.PORT || 5000;
 dotenv.config();
 app.use(cors());
 app.use(express.json());
-
 app.post('/register', userController.register);
-
 app.post('/login',userController.login);
-
-app.post('/order', authenticate, userController.createOrder)
-
+app.post('/order', authenticate, userController.createOrder);
 app.get('/myorders', authenticate, userController.getUserOrders);
+app.get('/myorder/:orderId', authenticate, userController.getOrderById);
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
