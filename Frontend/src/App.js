@@ -1,6 +1,5 @@
-import logo from './logo.svg';
 import RegisterPage from '../src/Pages/RegisterPage'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PageNotFound from "../src/Pages/PageNotFound"
 import UserHomePage from './Pages/UserHomePage'
 import CreateOrderPage from './Pages/CreateOrderPage'
@@ -8,17 +7,12 @@ import './App.css';
 import LoginPage from './Pages/LoginPage';
 import OrderDetailsPage from './Pages/OrderDetailsPage';
 import CourierHomePage from './Pages/CourierHomePage';
-import UpdateOrderStatus from './Pages/UpdateOrderStatusPage'
+import UpdateOrderStatus from './Pages/UpdateOrderStatusPage';
 
 
 
 function App() 
 {
-  const isAuthenticated = !!localStorage.getItem('authToken');
-  
-  const AuthenticatedRoute = ({ element }) => {
-    return isAuthenticated ? element : <Navigate to="/login" />;
-  }
   return (
     <div className="App">
     <BrowserRouter>
