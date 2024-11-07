@@ -16,12 +16,24 @@ class Order {
     }
   static async getOrdersByUserId(userId) {
       const query = 'SELECT * FROM "Orders" WHERE "user_id" = $1';
-      
       try {
         const result = await pool.query(query, [userId]);
         return result.rows;
       } catch (err) {
         console.error('Error fetching user orders:', err);
+        throw err;
+      }
+    }
+    static async getOrderById(userId, orderId) {
+      const query = 'SELECT * FROM "Orders" WHERE "user_id" = $1 AND "order_id" = $2';
+      try {
+        const result = await pool.query(query, [userId, orderId]);
+        if (result.rows.length === 0) {
+          throw new Error('Order not found or unauthorized access');
+        }
+        return result.rows[0];
+      } catch (err) {
+        console.error('Error fetching order details:', err);
         throw err;
       }
     }
