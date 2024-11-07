@@ -14,6 +14,17 @@ class Order {
         throw err; 
       }
     }
+  static async getOrdersByUserId(userId) {
+      const query = 'SELECT * FROM "Orders" WHERE "user_id" = $1';
+      
+      try {
+        const result = await pool.query(query, [userId]);
+        return result.rows;
+      } catch (err) {
+        console.error('Error fetching user orders:', err);
+        throw err;
+      }
+    }
 }
 
 module.exports = Order;
