@@ -18,6 +18,8 @@ app.post('/login',userController.login);
 
 app.post('/order', authenticate, userController.createOrder)
 
+app.get('/myorders', authenticate, userController.getUserOrders);
+
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}/`);
