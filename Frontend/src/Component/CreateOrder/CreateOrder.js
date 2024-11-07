@@ -6,10 +6,10 @@ function CreateOrder() {
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
-        pickup: '',
-        dropoff: '',
-        packageDetails: '',
-        deliveryTime :''
+        pickup_loc: '',
+        dropoff_loc: '',
+        package_details: '',
+        delivery_time :''
     });
     
     
@@ -23,10 +23,13 @@ function CreateOrder() {
     
     const submitHandler = async (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('authToken');
+        
         try {
-            const response = await fetch('http://localhost:5000/register', {
+            const response = await fetch('http://localhost:5000/order', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json' ,
+                'Authorization': `Bearer ${token}`},
                 body: JSON.stringify(formData)
             });
     
@@ -73,23 +76,23 @@ function CreateOrder() {
                         </header>
                     
                     <div className="mb-3">
-                            <label htmlFor="pickup" className="form-label">Pickup Location</label>
-                            <input type="text" id="pickup" className="form-control" value={formData.pickup} onChange={handleChange} required />
+                            <label htmlFor="pickup_loc" className="form-label">Pickup Location</label>
+                            <input type="text" id="pickup_loc" className="form-control" value={formData.pickup_loc} onChange={handleChange} required />
                         </div>
         
                         <div className="mb-3">
-                            <label htmlFor="dropoff" className="form-label">Dropoff Location</label>
-                            <input type="text" id="dropoff" className="form-control" value={formData.dropoff} onChange={handleChange} required/>
+                            <label htmlFor="dropoff_loc" className="form-label">Dropoff Location</label>
+                            <input type="text" id="dropoff_loc" className="form-control" value={formData.dropoff_loc} onChange={handleChange} required/>
                         </div>
 
                         <div className="mb-3">
-                            <label htmlFor="packageDetails" className="form-label">Package Details</label>
-                            <input type="text" id="packageDetails" className="form-control" value={formData.packageDetails} onChange={handleChange } required/>
+                            <label htmlFor="package_details" className="form-label">Package Details</label>
+                            <input type="text" id="package_details" className="form-control" value={formData.package_details} onChange={handleChange } required/>
                         </div>
 
                         <div className="mb-3">
-                            <label htmlFor="deliveryTime" className="form-label" style={{marginTop:"15px"}}>Delivery Time</label>
-                            <select id="deliveryTime" name="deliveryTime" style={{ marginLeft: "20px" }} value={formData.deliveryTime} onChange={handleChange}>
+                            <label htmlFor="delivery_time" className="form-label" style={{marginTop:"15px"}}>Delivery Time</label>
+                            <select id="delivery_time" name="delivery_time" style={{ marginLeft: "20px" }} value={formData.delivery_time} onChange={handleChange} required>
                                 <option> Select </option>
                                 <option> 8 am </option>
                                 <option> 9 am </option>
