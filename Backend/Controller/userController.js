@@ -53,14 +53,34 @@ const createOrder = async (req, res) => {
 
     const newOrder = await Order.createOrder(userId, {pickup_loc, dropoff_loc, package_details, delivery_time, status: 'Pending'});
     res.status(201).json(newOrder);
-} catch (err) {
+  } 
+  catch (err) 
+  {
     console.error('Error creating order:', err);
     res.status(500).json({ error: 'Failed to create order' });
-}
+  }
+};
+
+//Get order
+const getUserOrders = async (req, res) => {
+  try {
+    const userId = req.user.id; 
+    const orders = await Order.getOrdersByUserId(userId);
+    if (orders.length === 0)
+       {
+      return res.status(404).json({ message: 'No orders found' });
+    }
+    res.status(200).json(orders);
+  } 
+  catch (err) {
+    console.error('Error fetching orders:', err);
+    res.status(500).json({ error: 'Failed to fetch orders' });
+  }
 };
 
 module.exports = {
   register,
   login,
-  createOrder
+  createOrder,
+  getUserOrders
 };
