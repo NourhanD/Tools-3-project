@@ -7,15 +7,15 @@ function WebsiteTemplate(){
         <img 
         src={truck} 
         className="position-absolute bottom-0 end-0" 
-        style={{ width: "370px", height: "370px" , marginRight:"40px",marginTop:"90px"}} 
+        style={{ width: "280px", height: "280px" , marginRight:"40px",marginTop:"90px"}} 
         alt="Truck Icon"
       />
 
         <img 
             className="position-absolute bottom-0 start-0" 
             src={delivery} 
-            style={{ width: "290px", height: "290px" , marginBottom:"30px" , marginLeft:"40px"}} 
-            alt="Cloud Icon" 
+            style={{ width: "200px", height: "200px" , marginBottom:"30px" , marginLeft:"40px"}} 
+            alt="Deliver man Icon" 
         />
 
         </div>
