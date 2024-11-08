@@ -1,3 +1,4 @@
+import logo from './logo.svg';
 import RegisterPage from '../src/Pages/RegisterPage'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PageNotFound from "../src/Pages/PageNotFound"
@@ -7,13 +8,20 @@ import './App.css';
 import LoginPage from './Pages/LoginPage';
 import OrderDetailsPage from './Pages/OrderDetailsPage';
 import CourierHomePage from './Pages/CourierHomePage';
-import UpdateOrderStatus from './Pages/UpdateOrderStatusPage';
-import ListOrdersPage from './Pages/ListOrdersPage';
-
+import UpdateOrderStatus from './Pages/UpdateOrderStatusPage'
+import AdminAssingmentstoCourierPage from './Pages/AdminAssignmentsToCourierPage';
+import AdminHomePage from './Pages/AdminHomePage';
+import ListOrdersPage from './Pages/ListOrdersPage'
+import AssignedOrdersPage from './Pages/AssignedOrdersPage';
 
 
 function App() 
 {
+  const isAuthenticated = !!localStorage.getItem('authToken');
+  
+  const AuthenticatedRoute = ({ element }) => {
+    return isAuthenticated ? element : <Navigate to="/login" />;
+  }
   return (
     <div className="App">
     <BrowserRouter>
@@ -27,11 +35,12 @@ function App()
     <Route path="/orderDetails" element={<OrderDetailsPage/>} />
     <Route path="/courierHome" element={<CourierHomePage/>} />
     <Route path="/UpdateOrderStatus" element={<UpdateOrderStatus/>} />
-    <Route path="/myorders" element={<ListOrdersPage/>} />
+    <Route path="/adminAssignmentToCourier" element={<AdminAssingmentstoCourierPage/>} />
+    <Route path="/adminHome" element={<AdminHomePage/>} />
+    <Route path="/listOrdersPage" element={<ListOrdersPage/>} />
+    <Route path="/courierAssignedOrdersPage" element={<AssignedOrdersPage/>} />
 
 
-    
-    
     <Route path="*" element ={<PageNotFound/>} />
     </Routes>
     
