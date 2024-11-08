@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import swal from 'sweetalert';
+import { useNavigate } from 'react-router-dom';
 
 function ListOrders() {
-   
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -15,7 +16,8 @@ function ListOrders() {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`}
+                        'Authorization': `Bearer ${token}`
+                    }
                 });
 
                 if (response.ok) {
@@ -44,7 +46,44 @@ function ListOrders() {
         };
 
         fetchOrders();
-    }, []); 
+    }, []);
+
+    const handleOrderDetailsClick = async (orderId) => {
+        const token = localStorage.getItem('authToken');
+
+        try {
+            const response = await fetch('http://localhost:5000/orderdetails', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ orderId })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                navigate('/orderDetails', { state: { orderData: data } });
+            } else {
+                swal({
+                    title: "Fetch Failed",
+                    text: "Couldn't fetch order details, please try again",
+                    icon: "error",
+                    timer: 2000,
+                    buttons: false
+                });
+            }
+        } catch (error) {
+            console.error('Error fetching order details:', error);
+            swal({
+                title: "Fetch Failed",
+                text: "Couldn't fetch order details, please try again",
+                icon: "error",
+                timer: 2000,
+                buttons: false
+            });
+        }
+    };
 
     return (
         <div>
@@ -77,6 +116,17 @@ function ListOrders() {
                                                         }`}>
                                                             {order.status}
                                                         </span>
+                                                        <button
+                                                            className="btn btn-outline-secondary btn-lg"
+                                                            style={{
+                                                                fontWeight: "bold",
+                                                                marginTop: "20px",
+                                                                fontSize: "25px"
+                                                            }}
+                                                            onClick={() => handleOrderDetailsClick(order.order_id)}
+                                                        >
+                                                            Order Details
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             ))}
