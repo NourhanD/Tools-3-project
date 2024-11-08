@@ -105,7 +105,7 @@ function ListOrders() {
                                         <tbody>
                                             {orders.map((order) => (
                                                 <tr key={order.id}>
-                                                    <td>{order.order_id}</td>
+                                                   <td style={{ paddingTop: "25px" }}>{order.order_id}</td>
                                                     <td>
                                                         <span className={`badge ${
                                                             order.status === 'Delivered'
@@ -117,11 +117,13 @@ function ListOrders() {
                                                             {order.status}
                                                         </span>
                                                         <button
-                                                            className="btn btn-outline-secondary btn-lg"
+                                                            className="btn btn-outline-secondary btn-sm"
                                                             style={{
                                                                 fontWeight: "bold",
                                                                 marginTop: "20px",
-                                                                fontSize: "25px"
+                                                                fontSize: "10px",
+                                                                marginLeft: "70px",
+                                                                marginBottom: "20px"
                                                             }}
                                                             onClick={() => handleOrderDetailsClick(order.order_id)}
                                                         >
