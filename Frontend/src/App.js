@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import RegisterPage from '../src/Pages/RegisterPage'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PageNotFound from "../src/Pages/PageNotFound"
