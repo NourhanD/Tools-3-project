@@ -31,7 +31,6 @@ function App()
     <Route path="/orderDetails" element={<OrderDetailsPage/>} />
     <Route path="/courierHome" element={<CourierHomePage/>} />
     <Route path="/UpdateOrderStatus" element={<UpdateOrderStatus/>} />
-    <Route path="/myorders" element={<ListOrdersPage/>} />
     <Route path="/adminAssignmentToCourier" element={<AdminAssingmentstoCourierPage/>} />
     <Route path="/adminHome" element={<AdminHomePage/>} />
     <Route path="/listOrdersPage" element={<ListOrdersPage/>} />
