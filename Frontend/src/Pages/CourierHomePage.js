@@ -15,7 +15,7 @@ function CourierHomePage() {
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", gap: "120px" }}>
                 <div>
                 <img src={pendingOrders} className="card-img-top" alt="createOrderIcon" style={{ width: "100%", height: "250px", objectFit:'scale-down', margin: "0 auto" }} />
-                <button className="btn btn-outline-secondary btn-lg" onClick={() => navigate('/pendingOrders')} style={{ fontWeight: "bold" , marginTop:"25px" , fontSize:"25px"  }} >Pending orders</button>
+                <button className="btn btn-outline-secondary btn-lg" onClick={() => navigate('/courierAssignedOrdersPage')} style={{ fontWeight: "bold" , marginTop:"25px" , fontSize:"25px"  }} >Pending orders</button>
                 </div>
 
             
