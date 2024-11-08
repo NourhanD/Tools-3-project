@@ -8,6 +8,7 @@ import LoginPage from './Pages/LoginPage';
 import OrderDetailsPage from './Pages/OrderDetailsPage';
 import CourierHomePage from './Pages/CourierHomePage';
 import UpdateOrderStatus from './Pages/UpdateOrderStatusPage';
+import ListOrdersPage from './Pages/ListOrdersPage';
 
 
 
@@ -26,6 +27,7 @@ function App()
     <Route path="/orderDetails" element={<OrderDetailsPage/>} />
     <Route path="/courierHome" element={<CourierHomePage/>} />
     <Route path="/UpdateOrderStatus" element={<UpdateOrderStatus/>} />
+    <Route path="/myorders" element={<ListOrdersPage/>} />
 
 
     
