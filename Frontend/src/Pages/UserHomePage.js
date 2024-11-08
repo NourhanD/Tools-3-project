@@ -21,7 +21,7 @@ function UserHomePage() {
             
                 <div>
                 <img src={previousOrders} className="card-img-top" alt="previousOrders" style={{ width: "90%", height: "250px", objectFit:"contain", margin: "0 auto" }} />
-                <button className="btn btn-outline-secondary btn-lg" style={{ fontWeight: "bold" , marginTop:"20px" , fontSize:"25px" }} >My orders</button>
+                <button className="btn btn-outline-secondary btn-lg" onClick={() => navigate('/myorders')} style={{ fontWeight: "bold" , marginTop:"20px" , fontSize:"25px" }} >My orders</button>
                 </div> 
                
                 </div>
