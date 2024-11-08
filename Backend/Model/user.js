@@ -21,16 +21,16 @@ class User {
   
   static async findByEmail(email) {
     const queries = [
-      { query: 'SELECT * FROM "User" WHERE "email" = $1', role: 'user' },
+      { query: 'SELECT * FROM "User" WHERE "email" = $1', role: 'customer' },
       { query: 'SELECT * FROM "Courier" WHERE "email" = $1', role: 'courier' }
     ];
     const values = [email];  
   
     try {
-      for (const { query, role } of queries) {
+      for (const { query } of queries) {
         const result = await pool.query(query, values);
         if (result.rows.length > 0) {
-          return { ...result.rows[0], role };
+          return result.rows[0];
         }
       }
     } catch (err) {
