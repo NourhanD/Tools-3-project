@@ -4,13 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
 
 function LoginForm() {
-  // Define state for form inputs and password visibility
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
   const [passwordVisible, setPasswordVisible] = useState(false);
-
   const navigate = useNavigate();
 
   // Function to handle input changes
@@ -22,15 +20,16 @@ function LoginForm() {
     }));
   };
 
-  // Function for password visibility 
+  // Function for toggling password visibility
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
 
+  // Function to handle form submission
   const submitHandler = async (e) => {
     e.preventDefault(); // Prevent default form submission
 
-   try {
+    try {
       const response = await fetch('http://localhost:5000/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -43,21 +42,35 @@ function LoginForm() {
 
       if (response.ok) {
         console.log('Login successful:', data);
+        
+        // Store the auth token in localStorage
+        localStorage.setItem('authToken', data.token);
+
+        // Show success alert
         swal({
           title: "Login successful",
           text: "You've successfully logged in",
           icon: "success",
-          timer: 4000,
+          timer: 2000,
           buttons: false 
         });
- 
+
+        // Navigate to the home page after login
+        if (data.role === 'admin') {
+          navigate('/adminHome');
+      } else if (data.role === 'user') {
+          navigate('/home');
+      } else {
+          navigate('/courierHome');
+      }
+
       } else {
         console.error(data.error);
         swal({
           title: "Login failed",
           text: "Couldn't log in, please try again",
           icon: "error",
-          timer: 4000,
+          timer: 2000,
           buttons: false 
         });
       }
@@ -67,7 +80,7 @@ function LoginForm() {
         title: "Login failed",
         text: "Couldn't log in, please try again",
         icon: "error",
-        timer: 4000,
+        timer: 2000,
         buttons: false 
       });
     }
