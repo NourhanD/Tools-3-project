@@ -17,11 +17,7 @@ import AssignedOrdersPage from './Pages/AssignedOrdersPage';
 
 function App() 
 {
-  const isAuthenticated = !!localStorage.getItem('authToken');
-  
-  const AuthenticatedRoute = ({ element }) => {
-    return isAuthenticated ? element : <Navigate to="/login" />;
-  }
+
   return (
     <div className="App">
     <BrowserRouter>
@@ -35,6 +31,7 @@ function App()
     <Route path="/orderDetails" element={<OrderDetailsPage/>} />
     <Route path="/courierHome" element={<CourierHomePage/>} />
     <Route path="/UpdateOrderStatus" element={<UpdateOrderStatus/>} />
+    <Route path="/myorders" element={<ListOrdersPage/>} />
     <Route path="/adminAssignmentToCourier" element={<AdminAssingmentstoCourierPage/>} />
     <Route path="/adminHome" element={<AdminHomePage/>} />
     <Route path="/listOrdersPage" element={<ListOrdersPage/>} />
