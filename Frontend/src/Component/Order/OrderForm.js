@@ -61,10 +61,6 @@ function ListOrders() {
                                             <tr>
                                                 <th scope="col">Order ID</th>
                                                 <th scope="col">Status</th>
-                                                <th scope="col">Pickup location</th>
-                                                <th scope="col">Dropoff location</th>
-                                                <th scope="col">Package details</th>
-                                                <th scope="col">Delivery time</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -82,10 +78,6 @@ function ListOrders() {
                                                             {order.status}
                                                         </span>
                                                     </td>
-                                                    <td>{order.pickup_loc}</td>
-                                                    <td>{order.dropoff_loc}</td>
-                                                    <td>{order.package_details}</td>
-                                                    <td>{order.delivery_time}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
