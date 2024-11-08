@@ -56,9 +56,9 @@ function LoginForm() {
         });
 
         // Navigate to the home page after login
-        if (data.role === 'admin') {
+        if (data.user.role === 'admin') {
           navigate('/adminHome');
-      } else if (data.role === 'user') {
+      } else if (data.user.role === 'customer') {
           navigate('/home');
       } else {
           navigate('/courierHome');
