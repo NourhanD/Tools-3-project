@@ -1,8 +1,7 @@
 const User = require('../Model/user');
 const Order = require('../Model/Order');
 const jwt = require('jsonwebtoken');
-
-// Create a user
+const pool = require('../db');
 const register = async (req, res) => {
   const { firstName, lastName, phoneNumber, email, password, role } = req.body;
 
@@ -89,10 +88,48 @@ const getOrderById = async (req, res) => {
     res.status(404).json({ error: err.message }); 
   }
 };
+const cancelOrder = async (req, res) => {
+  const { orderId } = req.params;
+  const userId = req.user.id; 
+
+  try {
+    const canceledOrder = await Order.cancelOrder(orderId, userId);
+    res.status(200).json({ message: 'Order canceled successfully', order: canceledOrder });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+const updateOrderStatus = async (req, res) => {
+  const { orderId } = req.params;
+  const { status } = req.body;
+  const userId = req.user.id; 
+
+  try {
+    const isCourier = await   Order.isCourier(userId);
+    if (!isCourier) {
+      return res.status(403).json({ error: 'Only couriers are authorized to perform this action' });
+    }
+    const assignmentQuery = 'SELECT * FROM "Assignments" WHERE "order_id" = $1 AND "courier_id" = $2';
+    const assignmentResult = await pool.query(assignmentQuery, [orderId, userId]);
+
+    if (assignmentResult.rows.length === 0) {
+      return res.status(403).json({ error: 'This order is not assigned to you' });
+    }
+    const updateQuery = 'UPDATE "Assignments" SET "status" = $1 WHERE "assignment_id" = $2 RETURNING *';
+    const updateResult = await pool.query(updateQuery, [status, assignmentResult.rows[0].assignment_id]);
+
+    res.status(200).json({ message: 'Order status updated successfully', updatedAssignment: updateResult.rows[0] });
+  } catch (err) {
+    console.error('Error updating order status:', err.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 module.exports = {
   register,
   login,
   createOrder,
   getUserOrders,
-  getOrderById
+  getOrderById,
+  cancelOrder,
+  updateOrderStatus
 };
