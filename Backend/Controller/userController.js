@@ -2,6 +2,8 @@ const User = require('../Model/user');
 const Order = require('../Model/Order');
 const jwt = require('jsonwebtoken');
 const pool = require('../db');
+
+// Create a user
 const register = async (req, res) => {
   const { firstName, lastName, phoneNumber, email, password, role } = req.body;
 
@@ -17,11 +19,9 @@ const register = async (req, res) => {
 // user login
 const login = async (req, res) => {
   const { email, password } = req.body;
-
   try {
     
     const user = await User.findByEmail(email);
-    console.log(user);
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
@@ -40,25 +40,7 @@ const login = async (req, res) => {
   }
 };
 
-// Create an order
-const createOrder = async (req, res) => {
-  try {
-    const userId = req.user.id; 
-    const { pickup_loc, dropoff_loc,  package_details, delivery_time } = req.body;
 
-    if (!pickup_loc || !dropoff_loc || !package_details || !delivery_time) {
-        return res.status(400).json({ error: 'All fields are required' });
-    }
-
-    const newOrder = await Order.createOrder(userId, {pickup_loc, dropoff_loc, package_details, delivery_time, status: 'Pending'});
-    res.status(201).json(newOrder);
-  } 
-  catch (err) 
-  {
-    console.error('Error creating order:', err);
-    res.status(500).json({ error: 'Failed to create order' });
-  }
-};
 //get user orders
 const getUserOrders = async (req, res) => {
   try {
@@ -75,60 +57,13 @@ const getUserOrders = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch orders' });
   }
 };
+
 // get a certain order details
-const getOrderById = async (req, res) => {
-  const { orderId } = req.params;
-  const userId = req.user.id; 
-  try
-  {
-    const order = await Order.getOrderById(userId, orderId); 
-    res.status(200).json(order); 
-  } catch (err) {
-    console.error('Error fetching order details:', err);
-    res.status(404).json({ error: err.message }); 
-  }
-};
-const cancelOrder = async (req, res) => {
-  const { orderId } = req.params;
-  const userId = req.user.id; 
-
-  try {
-    const canceledOrder = await Order.cancelOrder(orderId, userId);
-    res.status(200).json({ message: 'Order canceled successfully', order: canceledOrder });
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-};
-const updateOrderStatus = async (req, res) => {
-  const { orderId } = req.params;
-  const { status } = req.body;
-  const userId = req.user.id; 
-
-  try {
-    const isCourier = await   Order.isCourier(userId);
-    if (!isCourier) {
-      return res.status(403).json({ error: 'Only couriers are authorized to perform this action' });
-    }
-    const assignmentQuery = 'SELECT * FROM "Assignments" WHERE "order_id" = $1 AND "courier_id" = $2';
-    const assignmentResult = await pool.query(assignmentQuery, [orderId, userId]);
-
-    if (assignmentResult.rows.length === 0) {
-      return res.status(403).json({ error: 'This order is not assigned to you' });
-    }
-    const updateQuery = 'UPDATE "Assignments" SET "status" = $1 WHERE "assignment_id" = $2 RETURNING *';
-    const updateResult = await pool.query(updateQuery, [status, assignmentResult.rows[0].assignment_id]);
-
-    res.status(200).json({ message: 'Order status updated successfully', updatedAssignment: updateResult.rows[0] });
-  } catch (err) {
-    console.error('Error updating order status:', err.message);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-};
 
 const isAdmin = async (req, res, next) => {
   try {
       const userId = req.user.id; // Assuming req.user is populated with the logged-in user's data
-      const result = await pool.query('SELECT role FROM "User" WHERE "UID" = $1', [userId]);
+      const result = await pool.query('SELECT role FROM "User" WHERE "id" = $1', [userId]);
 
       if (result.rows.length > 0 && result.rows[0].role === 'admin') {
           next();
@@ -140,20 +75,7 @@ const isAdmin = async (req, res, next) => {
       res.status(500).json({ error: 'Internal server error' });
   }
 };
-const getOrdersWithAssignments = async (req, res) => {
-  try {
-      const result = await pool.query(`
-          SELECT o.*, a.courier_id, a.status AS assignment_status
-          FROM "Orders" o
-          RIGHT JOIN "Assignments" a ON o.order_id = a.order_id
-      `);
 
-      res.status(200).json(result.rows);
-  } catch (error) {
-      console.error('Error fetching orders with assignments:', error);
-      res.status(500).json({ error: 'Failed to fetch orders' });
-  }
-};
 /*
 const reassignOrder = async (req, res) => {
   const { orderId, newCourierId } = req.body;
@@ -177,12 +99,11 @@ const reassignOrder = async (req, res) => {
   }
 };*/
 
+
+
 module.exports = {
   register,
   login,
-  createOrder,
   getUserOrders,
-  getOrderById,
-  cancelOrder,
-  updateOrderStatus, isAdmin,getOrdersWithAssignments,reassignOrder
+  isAdmin
 };
