@@ -54,19 +54,6 @@ const getOrderById = async (req, res) => {
     }
   };
   
-  //status in Assignment table
-//   const updateAssignedStatus = async (req, res) => {
-//     const { assignmentId } = req.params;
-//     const { status } = req.body;
-  
-//     try {
-//       const updatedAssignment = await Order.updateOrderStatus(assignmentId, status);
-//       res.status(200).json(updatedAssignment);
-//     } catch (err) {
-//       res.status(500).json({ error: 'Error updating order status' });
-//     }
-//   };
-  
   const cancelOrder = async (req, res) => {
     const { orderId } = req.params;
     const userId = req.user.id; 
@@ -184,13 +171,10 @@ const getOrderById = async (req, res) => {
     
   };
 
-
-
 module.exports = {
     createOrder,
     getOrderById,
     getAssignedOrders,
-    // updateAssignedStatus,
     cancelOrder,
     updateOrderStatus,
     getOrdersWithAssignments,
