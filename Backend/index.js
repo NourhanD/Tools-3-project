@@ -1,5 +1,6 @@
 const userController = require('./Controller/userController');
 const authenticate = require('./Middleware/authentication');
+const authenticateAndCheckCourier = require('./Middleware/authentication');
 const express = require('express');
 const cors = require('cors'); 
 const pool = require('./db');
@@ -16,6 +17,7 @@ app.post('/login',userController.login);
 app.post('/order', authenticate, userController.createOrder);
 app.get('/myorders', authenticate, userController.getUserOrders);
 app.get('/myorder/:orderId', authenticate, userController.getOrderById);
+app.put('/updateStatus/:orderId', authenticateAndCheckCourier, userController.updateOrderStatus);
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
