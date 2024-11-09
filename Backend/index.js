@@ -18,6 +18,7 @@ app.post('/order', authenticate, userController.createOrder);
 app.get('/myorders', authenticate, userController.getUserOrders);
 app.get('/myorder/:orderId', authenticate, userController.getOrderById);
 app.put('/updateStatus/:orderId', authenticateAndCheckCourier, userController.updateOrderStatus);
+app.get('/assignedOrders', authenticate, userController.getOrdersWithAssignments);
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
