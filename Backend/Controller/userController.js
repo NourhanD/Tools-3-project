@@ -124,6 +124,59 @@ const updateOrderStatus = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+const isAdmin = async (req, res, next) => {
+  try {
+      const userId = req.user.id; // Assuming req.user is populated with the logged-in user's data
+      const result = await pool.query('SELECT role FROM "User" WHERE "UID" = $1', [userId]);
+
+      if (result.rows.length > 0 && result.rows[0].role === 'admin') {
+          next();
+      } else {
+          res.status(403).json({ error: 'Access denied. Admins only.' });
+      }
+  } catch (error) {
+      console.error('Error checking admin role:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+};
+const getOrdersWithAssignments = async (req, res) => {
+  try {
+      const result = await pool.query(`
+          SELECT o.*, a.courier_id, a.status AS assignment_status
+          FROM "Orders" o
+          RIGHT JOIN "Assignments" a ON o.order_id = a.order_id
+      `);
+
+      res.status(200).json(result.rows);
+  } catch (error) {
+      console.error('Error fetching orders with assignments:', error);
+      res.status(500).json({ error: 'Failed to fetch orders' });
+  }
+};
+/*
+const reassignOrder = async (req, res) => {
+  const { orderId, newCourierId } = req.body;
+
+  try {
+      const result = await pool.query(`
+          UPDATE "Assignments"
+          SET courier_id = $1
+          WHERE order_id = $2
+          RETURNING *
+      `, [newCourierId, orderId]);
+
+      if (result.rows.length === 0) {
+          return res.status(404).json({ error: 'Order not found or not assigned' });
+      }
+
+      res.status(200).json({ message: 'Order reassigned successfully', assignment: result.rows[0] });
+  } catch (error) {
+      console.error('Error reassigning order:', error);
+      res.status(500).json({ error: 'Failed to reassign order' });
+  }
+};*/
+
 module.exports = {
   register,
   login,
@@ -131,5 +184,5 @@ module.exports = {
   getUserOrders,
   getOrderById,
   cancelOrder,
-  updateOrderStatus
+  updateOrderStatus, isAdmin,getOrdersWithAssignments,reassignOrder
 };
