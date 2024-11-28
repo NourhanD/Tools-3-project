@@ -39,7 +39,7 @@ function RegisterForm() {
           title: "Register successful",
           text: "Welcome Abroad!!",
           icon: "success",
-          timer: 4000, 
+          timer: 2000, 
           buttons: false 
         });
         navigate('/login');
@@ -49,7 +49,7 @@ function RegisterForm() {
           title: "Register failed",
           text: "Couldn't register , please try again",
           icon: "error",
-          timer: 4000, 
+          timer: 2000, 
           buttons: false 
         });
       }
@@ -59,7 +59,7 @@ function RegisterForm() {
         title: "Register failed",
         text: "Couldn't register , please try again",
         icon: "error",
-        timer: 4000, 
+        timer: 2000, 
         buttons: false 
       });
     }
