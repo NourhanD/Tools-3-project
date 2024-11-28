@@ -1,5 +1,5 @@
 import OrderForm from "../Component/Order/OrderForm";
-import WebsiteTemplate from "../Component/WebsiteTemplate.js/WebsiteTemplate"
+import WebsiteTemplate from "../Component/WebsiteTemplate/WebsiteTemplate"
 
 function ListOrdersPage (){
     return (
