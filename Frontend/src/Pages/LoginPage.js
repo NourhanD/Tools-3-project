@@ -1,16 +1,23 @@
+import { useNavigate } from 'react-router-dom';
 import LoginForm from "../Component/Login/LoginForm";
-import WebsiteTemplate from "../Component/WebsiteTemplate.js/WebsiteTemplate"
+import WebsiteTemplate from "../Component/WebsiteTemplate/WebsiteTemplate";
 
+function LoginPage() {
+    const navigate = useNavigate();
 
-function LoginPage () {
+    const handleLoginSuccess = (token) => {
+       
+        localStorage.setItem('authToken', token);
+        
+        navigate('/home');
+    };
+
     return (
         <div>
-            <LoginForm>
-
-            </LoginForm>
-           < WebsiteTemplate/>
-
+            <LoginForm onLoginSuccess={handleLoginSuccess} />
+            <WebsiteTemplate />
         </div>
-    )
+    );
 }
-export default LoginPage 
+
+export default LoginPage;
