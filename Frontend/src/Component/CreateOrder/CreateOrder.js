@@ -40,7 +40,7 @@ function CreateOrder() {
                     title: "Order Placed",
                     text: "Sending the order to a courier",
                     icon: "success",
-                    timer: 4000, 
+                    timer: 2000, 
                     buttons: false 
                 });
                 navigate('/home');
@@ -50,7 +50,7 @@ function CreateOrder() {
                     title: "Order Failed",
                     text: "Couldn't place order, please try again",
                     icon: "error",
-                    timer: 4000, 
+                    timer: 2000, 
                     buttons: false 
                 });
             }
@@ -60,7 +60,7 @@ function CreateOrder() {
                 title: "Order failed",
                 text: "Couldn't place order, please try again",
                 icon: "error",
-                timer: 4000, 
+                timer: 2000, 
                 buttons: false 
             });
         }
