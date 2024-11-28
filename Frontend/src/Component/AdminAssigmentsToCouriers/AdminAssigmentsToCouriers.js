@@ -51,9 +51,6 @@ const AdminAssignmentsToCourier = (props) => {
                                 cursor: 'pointer',
                             }}
                         >
-                            {/* <option disabled value="">
-                                Select Courier
-                            </option> */}
                             {courierNames.map((courier) => (
                                 <option key={courier.id} value={courier.id}>
                                     {courier.firstName} 
