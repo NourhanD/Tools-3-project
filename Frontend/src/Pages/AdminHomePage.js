@@ -9,13 +9,13 @@ function AdminHomePage() {
         <div>
             <WebsiteTemplate />
             <div style={{ position: "absolute", top: "60px", left: "30px" }}>
-                <h3 style={{ fontSize: "40px" ,fontWeight:"bold" }}>Hello username</h3>
+                <h3 style={{ fontSize: "40px" ,fontWeight:"bold" }}>Hello</h3>
             </div>
             
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", gap: "120px" }}>
                 <div>
                 <img src={manageOrders} className="card-img-top" alt="createOrderIcon" style={{ width: "100%", height: "250px", objectFit:'scale-down', margin: "0 auto" }} />
-                <button className="btn btn-outline-secondary btn-lg" onClick={() => navigate('/pendingOrders')} style={{ fontWeight: "bold" , marginTop:"25px" , fontSize:"25px"  }} >Manage orders</button>
+                <button className="btn btn-outline-secondary btn-lg" onClick={() => navigate('/manageOrders')} style={{ fontWeight: "bold" , marginTop:"25px" , fontSize:"25px"  }} >Manage orders</button>
                 </div>
 
             
