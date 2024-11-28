@@ -76,29 +76,6 @@ const isAdmin = async (req, res, next) => {
   }
 };
 
-/*
-const reassignOrder = async (req, res) => {
-  const { orderId, newCourierId } = req.body;
-
-  try {
-      const result = await pool.query(`
-          UPDATE "Assignments"
-          SET courier_id = $1
-          WHERE order_id = $2
-          RETURNING *
-      `, [newCourierId, orderId]);
-
-      if (result.rows.length === 0) {
-          return res.status(404).json({ error: 'Order not found or not assigned' });
-      }
-
-      res.status(200).json({ message: 'Order reassigned successfully', assignment: result.rows[0] });
-  } catch (error) {
-      console.error('Error reassigning order:', error);
-      res.status(500).json({ error: 'Failed to reassign order' });
-  }
-};*/
-
 
 
 module.exports = {
