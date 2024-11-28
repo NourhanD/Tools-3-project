@@ -8,10 +8,13 @@ import LoginPage from './Pages/LoginPage';
 import OrderDetailsPage from './Pages/OrderDetailsPage';
 import CourierHomePage from './Pages/CourierHomePage';
 import UpdateOrderStatus from './Pages/UpdateOrderStatusPage'
-import AdminAssingmentstoCourierPage from './Pages/AdminAssignmentsToCourierPage';
+import AdminAssingmentstoCourierPage from './Pages/AdminAssingmentstoCourierPage';
 import AdminHomePage from './Pages/AdminHomePage';
 import ListOrdersPage from './Pages/ListOrdersPage'
 import AssignedOrdersPage from './Pages/AssignedOrdersPage';
+import AdminManageOrdersPage from './Pages/AdminManageOrdersPage';
+
+
 
 
 function App() 
@@ -29,11 +32,12 @@ function App()
     <Route path="/createOrderPage" element={<CreateOrderPage/>} />
     <Route path="/orderDetails" element={<OrderDetailsPage/>} />
     <Route path="/courierHome" element={<CourierHomePage/>} />
-    <Route path="/UpdateOrderStatus" element={<UpdateOrderStatus/>} />
+    <Route path="/updateOrderStatus" element={<UpdateOrderStatus/>} />
     <Route path="/adminAssignmentToCourier" element={<AdminAssingmentstoCourierPage/>} />
     <Route path="/adminHome" element={<AdminHomePage/>} />
     <Route path="/listOrdersPage" element={<ListOrdersPage/>} />
     <Route path="/courierAssignedOrdersPage" element={<AssignedOrdersPage/>} />
+    <Route path="/manageOrders" element={<AdminManageOrdersPage/>} />
 
 
     <Route path="*" element ={<PageNotFound/>} />
