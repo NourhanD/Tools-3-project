@@ -9,7 +9,7 @@ function CourierHomePage() {
         <div>
             <WebsiteTemplate />
             <div style={{ position: "absolute", top: "60px", left: "30px" }}>
-                <h3 style={{ fontSize: "40px" ,fontWeight:"bold" }}>Hello username</h3>
+                <h3 style={{ fontSize: "40px" ,fontWeight:"bold" }}>Hello</h3>
             </div>
             
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", gap: "120px" }}>
