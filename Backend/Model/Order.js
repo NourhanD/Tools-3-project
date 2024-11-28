@@ -28,10 +28,10 @@ class Order {
     }
 
     static async getOrderById(userId, orderId) {
-      const query = 'SELECT * FROM "Orders" WHERE "user_id" = $1 AND "order_id" = $2';
+      const query = 'SELECT o.*, c."firstName", c."phoneNumber" FROM "Orders" o LEFT JOIN "Courier" c ON o."courier_id" = c."id" WHERE o."order_id" = $1';
 
       try {
-        const result = await pool.query(query, [userId, orderId]);
+        const result = await pool.query(query, [orderId]);
         if (result.rows.length === 0) {
           throw new Error('Order not found or unauthorized access');
         }
@@ -39,8 +39,8 @@ class Order {
       } catch (err) {
         console.error('Error fetching order details:', err);
         throw err;
-      }
-    }
+  }
+}
 
     static async cancelOrder(orderId, userId) {
       const query = `
@@ -51,7 +51,7 @@ class Order {
 
       `;
       try {
-        const result = await pool.query(query, [orderId, userId]);
+        const result = await pool.query(query, [orderId,userId]);
         if (result.rows.length === 0) {
           throw new Error('Order cannot be canceled (either not found, unauthorized, or already processed)');
         }
@@ -72,17 +72,58 @@ class Order {
         throw err;
       }
     }
+    static async displayCouriers() {
+      try {
+        const query = 'SELECT * FROM "Courier" ';
+        const result = await pool.query(query);
+  
+        return result.rows;
+      } catch (err) {
+        console.error('Error checking if user is a courier:', err);
+        throw err;
+      }
+    }
+
+    static async checkAssignment(orderId, courierId) {
+      const query = 'SELECT * FROM "Assignments" WHERE "order_id" = $1 AND "courier_id" = $2';
+      try {
+          const result = await pool.query(query, [orderId, courierId]);
+          return result.rows[0] || null; // Return the assignment or null if not found
+      } catch (err) {
+          console.error('Error checking assignment:', err.message);
+          throw new Error('Failed to check assignment');
+      }
+  }
+  static async updateAssignmentStatus(assignmentId, status) {
+    const query = 'UPDATE "Assignments" SET "status" = $1 WHERE "assignment_id" = $2 RETURNING *';
+    try {
+        const result = await pool.query(query, [status, assignmentId]);
+        return result.rows[0];
+    } catch (err) {
+        console.error('Error updating assignment status:', err.message);
+        throw new Error('Failed to update assignment status');
+    }
+}
+static async updateOrderStatus(orderId, courierId, status) {
+  const query = 'UPDATE "Orders" SET "status" = $1, "courier_id" = $2 WHERE "order_id" = $3 RETURNING *';
+  try {
+      const result = await pool.query(query, [status, courierId, orderId]);
+      return result.rows[0];
+  } catch (err) {
+      console.error('Error updating order status:', err.message);
+      throw new Error('Failed to update order status');
+  }
+}
+
 
     
     //tested
-    static async assignedOrders(req, res) {
-      const courier_id = req.user.id;
-      const query = 'SELECT * FROM "Assignments" WHERE "courier_id" = $1';
-      const values = [courier_id];
+    static async assignedOrders(courierId) {
+      const query = 'SELECT * FROM "Orders" WHERE "courier_id" = $1';
   
       try {
-        const result = await pool.query(query, values);
-        return result.rows;
+        const res = await pool.query(query, [courierId]);
+        return res.rows;
       } catch (err) {
         console.error('Error fetching assigned orders:', err);
         throw err;
@@ -104,10 +145,12 @@ class Order {
 
     static async updateOrderStatusByAdmin(orderId, status) {
       const query = 'UPDATE "Orders" SET "status" = $1 WHERE "order_id" = $2 RETURNING *';
+      const Assignmentquery = 'UPDATE "Assignments" SET "status" = $1 WHERE "order_id" = $2 RETURNING *';
       const values = [status, orderId];
   
       try {
         const result = await pool.query(query, values);
+        const Assignresult = await pool.query(Assignmentquery, values);
         return result.rows[0]; 
       } catch (err) {
         console.error('Error updating order status:', err);
@@ -116,10 +159,12 @@ class Order {
     }
 
     static async deleteOrderByAdmin(orderId) {
+      const deletefromAssignments = 'DELETE FROM "Assignments" WHERE "order_id" = $1 RETURNING *';
       const query = 'DELETE FROM "Orders" WHERE "order_id" = $1 RETURNING *';
       const values = [orderId];
   
       try {
+        const deleteAssignments = await pool.query(deletefromAssignments, values);
         const result = await pool.query(query, values);
         return result.rows[0]; 
       } catch (err) {
@@ -160,6 +205,44 @@ class Order {
       }
     }
 
+    static async getOrdersWithAssignments() {
+      const query = `
+          SELECT o.*, a.courier_id, a.status AS assignment_status
+          FROM "Orders" o
+          RIGHT JOIN "Assignments" a ON o.order_id = a.order_id
+      `;
+      try {
+          const result = await pool.query(query);
+          return result.rows;
+      } catch (error) {
+          console.error('Error fetching orders with assignments:', error);
+          throw error;
+      }
   }
 
+  static async reassignOrder(orderId, newCourierId) {
+      const query = `
+          UPDATE "Assignments"
+          SET courier_id = $1
+          WHERE order_id = $2
+          RETURNING *
+      `;
+      const updateOrderQuery = `
+            UPDATE "Orders"
+            SET courier_id = $1
+            WHERE order_id = $2
+            RETURNING *;
+        `;
+        
+      const values = [newCourierId, orderId];
+      try {
+          const result = await pool.query(query, values);
+          const orderResult = await pool.query(updateOrderQuery, values);
+          return result.rows[0];
+      } catch (error) {
+          console.error('Error reassigning order:', error);
+          throw error;
+      }
+  }
+}
 module.exports = Order;
