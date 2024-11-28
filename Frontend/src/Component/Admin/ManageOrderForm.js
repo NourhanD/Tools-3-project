@@ -1,95 +1,103 @@
-// ManageOrdersForm.js
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Button, Table, Container, Row, Col } from 'react-bootstrap';
+import React, { useState } from 'react';
 
-const ManageOrdersForm = () => {
-  const [orders, setOrders] = useState([]);
+const ManageOrdersForm = ({ 
+    orderNumber, 
+    pickup, 
+    dropoff, 
+    packageDetails, 
+    status, 
+    firstName,  
+    onUpdateStatus, 
+    onDeleteOrder,
+    courierId 
+}) => {
+    const [currentStatus, setCurrentStatus] = useState(status);
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
+    const handleStatusChange = (e) => {
+        setCurrentStatus(e.target.value);
+    };
 
-  const fetchOrders = async () => {
-    try {
-      const response = await axios.get('/api/orders');
-      setOrders(response.data);
-    } catch (error) {
-      console.error('Error fetching orders:', error);
-    }
-  };
-
-  const updateOrderStatus = async (orderId, newStatus) => {
-    try {
-      await axios.put(`/api/orders/${orderId}`, { status: newStatus });
-      fetchOrders();
-    } catch (error) {
-      console.error('Error updating order status:', error);
-    }
-  };
-
-  const deleteOrder = async (orderId) => {
-    try {
-      await axios.delete(`/api/orders/${orderId}`);
-      fetchOrders();
-    } catch (error) {
-      console.error('Error deleting order:', error);
-    }
-  };
-
-  return (
-    <Container fluid className="mt-5">
-      <Row className="justify-content-center">
-        <Col xs={12} md={10}>
-          <h2 className="text-center mb-4">Manage Orders</h2>
-          <Table striped bordered hover responsive>
-            <thead className="thead-dark">
-              <tr>
-                <th>Order ID</th>
-                <th>Customer Name</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders.map((order) => (
-                <tr key={order.id}>
-                  <td>{order.id}</td>
-                  <td>{order.customerName}</td>
-                  <td>{order.status}</td>
-                  <td>
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      onClick={() => updateOrderStatus(order.id, 'Shipped')}
-                      className="mr-2"
+    return (
+        <div className="row justify-content-center align-items-start my-2">
+            <div className="col-md-6 col-lg-4" style={{ textAlign: "left", padding: "10px" }}>
+                <form
+                    className="form-control p-3"
+                    style={{ fontSize: "0.9rem" }}
+                    onSubmit={(e) => e.preventDefault()}
+                >
+                    <header
+                        className="mb-2"
+                        style={{
+                            fontWeight: "bold",
+                            fontSize: "18px",
+                            textAlign: "left",
+                        }}
                     >
-                      Mark as Shipped
-                    </Button>
-                    <Button
-                      variant="success"
-                      size="sm"
-                      onClick={() => updateOrderStatus(order.id, 'Delivered')}
-                      className="mr-2"
-                    >
-                      Mark as Delivered
-                    </Button>
-                    <Button
-                      variant="danger"
-                      size="sm"
-                      onClick={() => deleteOrder(order.id)}
-                    >
-                      Delete
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </Col>
-      </Row>
-    </Container>
-  );
-};
+                        Order ID: {orderNumber}
+                    </header>
+    
+                    <label style={{ display: "block", marginBottom: "12px", fontWeight: "bold" }}>
+                        Customer ID: {firstName} 
+                    </label>
+                    <label style={{ display: "block", marginBottom: "12px", fontWeight: "bold" }}>
+                        Pickup Location: {pickup}
+                    </label>
+                    <label style={{ display: "block", marginBottom: "12px", fontWeight: "bold" }}>
+                        Dropoff Location: {dropoff}
+                    </label>
+                    <label style={{ display: "block", marginBottom: "12px", fontWeight: "bold" }}>
+                        Package Details: {packageDetails}
+                    </label>
+    
+                    {courierId && (
+                        <div style={{ display: "flex", alignItems: "center", marginBottom: "12px" }}>
+                            <label style={{ fontWeight: "bold" }}>Status</label>
+                            <select
+                                value={currentStatus}
+                                onChange={handleStatusChange}
+                                style={{
+                                    marginLeft: "10px",
+                                    backgroundColor: "#f8f9fa",
+                                    border: "1px solid #ced4da",
+                                    padding: "5px 10px",
+                                    borderRadius: "6px",
+                                    color: "#495057",
+                                    fontWeight: "bold",
+                                    fontSize: "0.9rem",
+                                    cursor: "pointer",
+                                }}
+                            >
+                                <option value="Pickup">Pickup</option>
+                                <option value="In transit">In transit</option>
+                                <option value="Delivered">Delivered</option>
+                            </select>
+                        </div>
+                    )}
+    
+                    <div className="d-grid gap-1 col-6 mx-auto">
+                        {courierId && (
+                            <button
+                                type="button"
+                                className="btn btn-outline-success"
+                                style={{ fontWeight: "bold", fontSize: "0.9rem" }}
+                                onClick={() => onUpdateStatus(orderNumber, currentStatus)}
+                            >
+                                Save Changes
+                            </button>
+                        )}
+                        <button
+                            type="button"
+                            className="btn btn-danger"
+                            style={{ fontWeight: "bold", fontSize: "0.9rem" }}
+                            onClick={() => onDeleteOrder(orderNumber)}
+                        >
+                            Delete Order
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );    
+}    
 
 export default ManageOrdersForm;
