@@ -1,5 +1,5 @@
 import AssignedOrdersform from "../Component/Courir/AssignedOrdersform";
-import WebsiteTemplate from "../Component/WebsiteTemplate.js/WebsiteTemplate"
+import WebsiteTemplate from "../Component/WebsiteTemplate/WebsiteTemplate"
 
 function AssignedOrdersPage (){
     return (
