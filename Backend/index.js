@@ -42,6 +42,11 @@ app.get('/neworders', orderController.getPendingOrders); //courier
 
 app.put('/order/:order_id/accept', authenticateAndCheckCourier, orderController.acceptOrder); //courier
 
+app.get('/couriers',  authenticate, userController.isAdmin, orderController.getAllCouriers); //admin
+
+app.put('/reassignOrder/:orderId/:courierId', authenticate, userController.isAdmin, orderController.reassignOrder); //admin
+
+
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
