@@ -1,5 +1,5 @@
 import RegisterForm from "../Component/Register/RegisterForm"
-import WebsiteTemplate from "../Component/WebsiteTemplate.js/WebsiteTemplate"
+import WebsiteTemplate from "../Component/WebsiteTemplate/WebsiteTemplate"
 
 
 function RegisterPage(){
