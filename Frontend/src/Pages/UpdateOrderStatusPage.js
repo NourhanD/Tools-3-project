@@ -1,93 +1,53 @@
 import React, { useEffect, useState } from 'react';
 import WebsiteTemplate from "../Component/WebsiteTemplate/WebsiteTemplate";
-import AdminAssignmentsToCourier from "../Component/AdminAssignmentsToCouriers/AdminAssignmentsToCouriers";
+import UpdateOrderStatus from "../Component/UpdateOrderStatus/UpdateOrderStatus";
 
-function AdminAssignmentsToCourierPage() {
-    const [orders, setOrders] = useState([]);
-    const [couriers, setCouriers] = useState([]); 
+function UpdateOrderStatusPage() {
+    const [orders, setOrders] = useState([]); 
     const [loading, setLoading] = useState(true); 
-    const [error, setError] = useState(null);
+    const [error, setError] = useState(null); // Initialize error with a setter
 
     useEffect(() => {
-        const fetchOrdersAndCouriers = async () => {
+        const fetchOrders = async () => {
             const token = localStorage.getItem('authToken');
             try {
-                // Fetch orders
-                const ordersResponse = await fetch('http://localhost:5000/assignedOrders', {
+                const response = await fetch('http://localhost:5000/courier/orders', {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization: `Bearer ${token}`, // Fixed the template literal
                     },
                 });
 
-                // Fetch couriers
-                const couriersResponse = await fetch('http://localhost:5000/couriers', {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                if (ordersResponse.ok && couriersResponse.ok) {
-                    const ordersData = await ordersResponse.json();
-                    const couriersData = await couriersResponse.json();
-
-                    setOrders(ordersData);
-                    setCouriers(couriersData.map((courier) => ({
-                        id: courier.courier_id,
-                        name: courier.name,
-                    }))); // Extract names for dropdown
+                if (response.ok) {
+                    const data = await response.json();
+                    setOrders(data);
                 } else {
-                    throw new Error('Failed to fetch orders or couriers');
+                    console.error('Failed to fetch orders');
+                    setError('Failed to fetch orders'); // Set error if response is not ok
                 }
             } catch (err) {
-                console.error('Error fetching orders or couriers:', err);
-                setError(err.message);
+                console.error('Error fetching orders:', err);
+                setError('Error fetching orders');
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchOrdersAndCouriers();
+        fetchOrders();
     }, []);
 
-    const handleAssignCourier = async (orderId, courierId) => {
-        try {
-            const token = localStorage.getItem('authToken');
-            const response = await fetch('http://localhost:5000/assignCourier', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({ orderId, courierId }),
-            });
-
-            if (response.ok) {
-                alert('Courier assigned successfully!');
-         
-            } else {
-                throw new Error('Failed to assign courier');
-            }
-        } catch (err) {
-            console.error('Error assigning courier:', err);
-            alert('Error assigning courier. Please try again.');
-        }
-    };
-
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <p>Loading orders...</p>;
     if (error) return <p>Error: {error}</p>;
 
     return (
         <div>
             {orders.map((order) => (
-                <AdminAssignmentsToCourier
-                    key={order.order_id}
+                <UpdateOrderStatus
+                    key={order.order_id} 
                     orderNumber={order.order_id}
                     pickup={order.pickup_loc}
                     dropoff={order.dropoff_loc}
                     packageDetails={order.package_details}
-                    courierNames={couriers} // Pass the courier names for the dropdown
-                    assignedCourierId={order.courier_id}
-                    onAssignCourier={handleAssignCourier}
+                    status={order.status}
                 />
             ))}
             <WebsiteTemplate />
@@ -95,4 +55,4 @@ function AdminAssignmentsToCourierPage() {
     );
 }
 
-export default AdminAssignmentsToCourierPage;
+export default UpdateOrderStatusPage;
