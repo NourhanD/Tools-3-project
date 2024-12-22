@@ -8,7 +8,7 @@ import LoginPage from './Pages/LoginPage';
 import OrderDetailsPage from './Pages/OrderDetailsPage';
 import CourierHomePage from './Pages/CourierHomePage';
 import UpdateOrderStatus from './Pages/UpdateOrderStatusPage'
-import AdminAssingmentstoCourierPage from './Pages/AdminAssignmentstoCourierPage';
+import AdminAssignmentsToCourierPage from './Pages/AdminAssignmentsToCourierPage';
 import AdminHomePage from './Pages/AdminHomePage';
 import ListOrdersPage from './Pages/ListOrdersPage'
 import AssignedOrdersPage from './Pages/AssignedOrdersPage';
@@ -33,7 +33,7 @@ function App()
     <Route path="/orderDetails" element={<OrderDetailsPage/>} />
     <Route path="/courierHome" element={<CourierHomePage/>} />
     <Route path="/updateOrderStatus" element={<UpdateOrderStatus/>} />
-    <Route path="/adminAssignmentToCourier" element={<AdminAssingmentstoCourierPage/>} />
+    <Route path="/adminAssignmentToCourier" element={<AdminAssignmentsToCourierPage/>} />
     <Route path="/adminHome" element={<AdminHomePage/>} />
     <Route path="/listOrdersPage" element={<ListOrdersPage/>} />
     <Route path="/courierAssignedOrdersPage" element={<AssignedOrdersPage/>} />
