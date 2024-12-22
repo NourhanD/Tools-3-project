@@ -1,31 +1,28 @@
+# Stage 1: Build the React application
 FROM node:18-alpine as build
 
-# Step 1: Build the React app
+# Set the working directory
 WORKDIR /usr/src/app
+
+# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
+
+# Copy the rest of the application code and build it
 COPY . .
 RUN npm run build
 
-# Step 2: Set up NGINX
+# Stage 2: Serve the application using Nginx
 FROM nginx:alpine
 
-# Copy the build output to NGINX's html directory
+# Copy the build files from the previous stage
 COPY --from=build /usr/src/app/build /usr/share/nginx/html
 
-# Copy the custom nginx.conf to NGINX configuration directory
+# Copy the custom Nginx configuration file
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Create writable directories for NGINX
-RUN mkdir -p /tmp/nginx-temp/client_body \
-    /tmp/nginx-temp/proxy \
-    /tmp/nginx-temp/fastcgi \
-    /tmp/nginx-temp/uwsgi \
-    /tmp/nginx-temp/scgi \
-    && chmod -R 777 /tmp/nginx-temp
-
-# Expose port 80
+# Expose the port for the application
 EXPOSE 80
 
-# Start NGINX
+# Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
