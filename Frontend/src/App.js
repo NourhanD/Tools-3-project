@@ -8,7 +8,7 @@ import LoginPage from './Pages/LoginPage';
 import OrderDetailsPage from './Pages/OrderDetailsPage';
 import CourierHomePage from './Pages/CourierHomePage';
 import UpdateOrderStatus from './Pages/UpdateOrderStatusPage'
-import AdminAssingmentstoCourierPage from './Pages/AdminAssingmentstoCourierPage';
+import AdminAssingmentstoCourierPage from './Pages/AdminAssignmentstoCourierPage';
 import AdminHomePage from './Pages/AdminHomePage';
 import ListOrdersPage from './Pages/ListOrdersPage'
 import AssignedOrdersPage from './Pages/AssignedOrdersPage';
