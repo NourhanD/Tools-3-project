@@ -15,6 +15,14 @@ RUN npm run build
 # Stage 2: Serve the application using Nginx
 FROM nginx:alpine
 
+# Set permissions for non-root user
+RUN mkdir -p /var/cache/nginx/client_temp && \
+    chown -R nginx:nginx /var/cache/nginx && \
+    chmod -R 755 /var/cache/nginx
+
+# Switch to a non-root user
+USER nginx
+
 # Copy the build files from the previous stage
 COPY --from=build /usr/src/app/build /usr/share/nginx/html
 
@@ -22,7 +30,7 @@ COPY --from=build /usr/src/app/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose the port for the application
-EXPOSE 80
+EXPOSE 8080
 
 # Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
