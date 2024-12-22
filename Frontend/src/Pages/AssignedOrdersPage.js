@@ -1,4 +1,4 @@
-import AssignedOrdersform from "../Component/Courir/AssignedOrdersform";
+import AssignedOrdersform from "../Component/Courier/AssignedOrdersform";
 import WebsiteTemplate from "../Component/WebsiteTemplate/WebsiteTemplate"
 
 function AssignedOrdersPage (){
