@@ -27,13 +27,13 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 RUN mkdir -p /var/cache/nginx/client_temp \
     /var/cache/nginx/proxy_temp \
     /var/cache/nginx/fastcgi_temp \
+    /var/cache/nginx/uwsgi_temp \
     /tmp/nginx/client_body && \
     chown -R nginx:nginx /var/cache/nginx /tmp/nginx
 
 # Copy built React app from the build stage
 COPY --from=build /usr/src/app/build /usr/share/nginx/html
 
-# Expose port 8080 to avoid permission issues
 EXPOSE 8080
 
 # Switch to non-root user for security
