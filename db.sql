@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS public."User"
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public."User"
-    OWNER to postgres;
+    OWNER to nourhand;
     -- Table: public.Courier
 
 -- DROP TABLE IF EXISTS public."Courier";
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS public."Courier"
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public."Courier"
-    OWNER to postgres;
+    OWNER to nourhand;
     -- Table: public.Orders
 
 -- DROP TABLE IF EXISTS public."Orders";
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS public."Orders"
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public."Orders"
-    OWNER to postgres;
+    OWNER to nourhand;
     -- Table: public.Assignments
 
 -- DROP TABLE IF EXISTS public."Assignments";
@@ -94,4 +94,4 @@ CREATE TABLE IF NOT EXISTS public."Assignments"
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public."Assignments"
-    OWNER to postgres;
+    OWNER to nourhand;
