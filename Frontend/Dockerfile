@@ -14,30 +14,20 @@ COPY . .
 # Build the React application
 RUN npm run build
 
-# Stage 2: Setup NGINX to serve the built files
-FROM nginx:alpine
+# Stage 2: Serve React application using a lightweight Node.js server
+FROM node:18-alpine
 
-# Switch to root user to configure permissions
-USER root
+# Set working directory
+WORKDIR /usr/src/app
 
-# Copy custom NGINX configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Install a simple HTTP server (e.g., serve)
+RUN npm install -g serve
 
-# Create necessary directories with correct permissions
-RUN mkdir -p /var/cache/nginx/client_temp \
-    /var/cache/nginx/proxy_temp \
-    /var/cache/nginx/fastcgi_temp \
-    /var/cache/nginx/uwsgi_temp \
-    /tmp/nginx/client_body && \
-    chown -R nginx:nginx /var/cache/nginx /tmp/nginx
+# Copy the built React application from the build stage
+COPY --from=build /usr/src/app/build .
 
-# Copy built React app from the build stage
-COPY --from=build /usr/src/app/build /usr/share/nginx/html
+# Expose port 3000
+EXPOSE 3000
 
-EXPOSE 8080
-
-# Switch to non-root user for security
-USER nginx
-
-# Run NGINX as the entrypoint
-CMD ["nginx", "-g", "daemon off;"]
+# Start the React app
+CMD ["serve", "-s", ".", "-l", "3000"]
