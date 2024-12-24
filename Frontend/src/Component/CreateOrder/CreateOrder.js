@@ -26,7 +26,7 @@ function CreateOrder() {
         const token = localStorage.getItem('authToken');
         
         try {
-            const response = await fetch('http://localhost:5000/order', {
+            const response = await fetch('https://backend-nourhandarwish-dev.apps.rm2.thpm.p1.openshiftapps.com/order', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' ,
                 'Authorization': `Bearer ${token}`},
