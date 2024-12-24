@@ -15,10 +15,10 @@ function AdminAssignmentsToCourierPage() {
             try {
                 // Fetch orders and couriers
                 const [ordersResponse, couriersResponse] = await Promise.all([
-                    fetch('http://localhost:5000/assignedOrders', {
+                    fetch('https://backend-nourhandarwish-dev.apps.rm2.thpm.p1.openshiftapps.com/assignedOrders', {
                         headers: { Authorization: `Bearer ${token}` },
                     }),
-                    fetch('http://localhost:5000/couriers', {
+                    fetch('https://backend-nourhandarwish-dev.apps.rm2.thpm.p1.openshiftapps.com/couriers', {
                         headers: { Authorization: `Bearer ${token}` },
                     }),
                 ]);
@@ -45,7 +45,7 @@ function AdminAssignmentsToCourierPage() {
     const handleAssignCourier = async (orderId, courierId) => {
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch(`http://localhost:5000/reassignOrder/${orderId}/${courierId}`, {
+            const response = await fetch(`https://backend-nourhandarwish-dev.apps.rm2.thpm.p1.openshiftapps.com/reassignOrder/${orderId}/${courierId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
