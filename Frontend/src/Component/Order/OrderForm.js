@@ -12,7 +12,7 @@ function ListOrders() {
             const token = localStorage.getItem('authToken');
 
             try {
-                const response = await fetch(https://backend-nourhandarwish-dev.apps.rm2.thpm.p1.openshiftapps.com/myorders', {
+                const response = await fetch('https://backend-nourhandarwish-dev.apps.rm2.thpm.p1.openshiftapps.com/myorders', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
