@@ -21,8 +21,8 @@ class User {
   
   static async findByEmail(email) {
     const queries = [
-      { query: 'SELECT * FROM "User" WHERE "email" = $1', role: 'customer' },
-      { query: 'SELECT * FROM "Courier" WHERE "email" = $1', role: 'courier' }
+      { query: 'SELECT * FROM "User" WHERE "email" = $1', role: 'Customer' },
+      { query: 'SELECT * FROM "Courier" WHERE "email" = $1', role: 'Courier' }
     ];
     const values = [email];  
   
