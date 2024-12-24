@@ -58,7 +58,7 @@ function LoginForm() {
         // Navigate to the home page after login
         if (data.user.role === 'admin') {
           navigate('/adminHome');
-      } else if (data.user.role === 'customer') {
+      } else if (data.user.role === 'Customer') {
           navigate('/home');
       } else {
           navigate('/courierHome');
