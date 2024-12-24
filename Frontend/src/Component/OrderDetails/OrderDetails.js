@@ -14,7 +14,7 @@ const OrderDetails = (props) => {
         const token = localStorage.getItem('authToken');
         try {
             // Pass the order ID directly in the URL (path param)
-            const response = await fetch(`http://localhost:5000/order/${id}/cancel`, {
+            const response = await fetch(`https://backend-nourhandarwish-dev.apps.rm2.thpm.p1.openshiftapps.com/order/${id}/cancel`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
