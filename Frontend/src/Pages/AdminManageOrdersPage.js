@@ -12,7 +12,7 @@ function AdminManageOrdersPage() {
         const fetchOrders = async () => {
             const token = localStorage.getItem('authToken');
             try {
-                const response = await fetch('http://localhost:5000/orders', {
+                const response = await fetch('https://backend-nourhandarwish-dev.apps.rm2.thpm.p1.openshiftapps.com/orders', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -37,7 +37,7 @@ function AdminManageOrdersPage() {
     const updateOrderStatus = async (orderNumber, newStatus) => {
         const token = localStorage.getItem('authToken');
         try {
-            const response = await fetch(`http://localhost:5000/orderU/${orderNumber}`, {
+            const response = await fetch(`https://backend-nourhandarwish-dev.apps.rm2.thpm.p1.openshiftapps.com/orderU/${orderNumber}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ function AdminManageOrdersPage() {
     const deleteOrder = async (orderNumber) => {
         const token = localStorage.getItem('authToken');
         try {
-            const response = await fetch(`http://localhost:5000/orderD/${orderNumber}`, {
+            const response = await fetch(`https://backend-nourhandarwish-dev.apps.rm2.thpm.p1.openshiftapps.com/orderD/${orderNumber}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${token}`,
