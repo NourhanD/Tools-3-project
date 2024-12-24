@@ -12,7 +12,7 @@ const UpdateOrderStatus = ({ orderNumber, pickup, dropoff, packageDetails, statu
         const token = localStorage.getItem('authToken');
 
         try {
-            const response = await fetch(`http://localhost:5000/updateStatus/${orderNumber}`, {
+            const response = await fetch(`https://backend-nourhandarwish-dev.apps.rm2.thpm.p1.openshiftapps.com/updateStatus/${orderNumber}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
