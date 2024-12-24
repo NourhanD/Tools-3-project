@@ -9,7 +9,7 @@ const AssignedOrdersForm = () => {
   useEffect(() => {
     const fetchPendingOrders = async () => {
       try {
-        const response = await fetch('http://localhost:5000/neworders'); // Using the correct backend route
+        const response = await fetch('https://backend-nourhandarwish-dev.apps.rm2.thpm.p1.openshiftapps.com/neworders'); // Using the correct backend route
 
         if (!response.ok) {
           throw new Error('Failed to fetch pending orders');
