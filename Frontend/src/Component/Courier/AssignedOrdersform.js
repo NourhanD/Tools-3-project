@@ -31,7 +31,7 @@ const AssignedOrdersForm = () => {
   const handleAccept = async (id) => {
     try {
       const token = localStorage.getItem('authToken'); // Ensure auth token is included if needed
-      const response = await fetch(`http://localhost:5000/order/${id}/accept`, {
+      const response = await fetch(`https://backend-nourhandarwish-dev.apps.rm2.thpm.p1.openshiftapps.com/order/${id}/accept`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
