@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import swal from 'sweetalert';
 
 const AssignedOrdersForm = () => {
   const [orders, setOrders] = useState([]);
@@ -16,7 +17,7 @@ const AssignedOrdersForm = () => {
         }
 
         const data = await response.json();
-        setOrders(data.newOrders); // Assuming 'newOrders' contains the list of pending orders
+        setOrders(data.newOrders); 
       } catch (err) {
         setError(err.message);
       } finally {
@@ -25,12 +26,12 @@ const AssignedOrdersForm = () => {
     };
 
     fetchPendingOrders();
-  }, []); // Runs once when the component mounts
+  }, []); 
 
   // Handle the Accept action
   const handleAccept = async (id) => {
     try {
-      const token = localStorage.getItem('authToken'); // Ensure auth token is included if needed
+      const token = localStorage.getItem('authToken'); 
       const response = await fetch(`https://backend-nourhandarwish-dev.apps.rm2.thpm.p1.openshiftapps.com/order/${id}/accept`, {
         method: 'PUT',
         headers: {
@@ -40,34 +41,31 @@ const AssignedOrdersForm = () => {
       });
   
       if (!response.ok) {
-        const errorData = await response.json(); // Capture error response details for better debugging
+        const errorData = await response.json(); 
         throw new Error(errorData.message || 'Failed to accept the order');
       }
+      swal('Success', 'Order Accepted successfully!', 'success');
   
-      const updatedOrder = await response.json(); // Parse the response to get the updated order data
-  
-      // Update the local state to reflect the accepted status
-      setOrders((prevOrders) =>
-        prevOrders.map((order) =>
-          order.id === id ? { ...order, ...updatedOrder } : order
-        )
-      );
+      setOrders((prevOrders) => prevOrders.filter((order) => order.order_id !== id));
     } catch (err) {
       console.error('Error accepting the order:', err);
+      swal('Failed', 'Error accepting order. Please try again.', 'error');
     }
   };
   
 
   const handleDecline = (id) => {
-    
-    setOrders((prevOrders) => {
-        const updatedOrders = prevOrders.filter((order) => order.id !== id); 
-        localStorage.setItem('orders', JSON.stringify(updatedOrders)); 
-        setOrders(updatedOrders);
-        //return updatedOrders;
-    });
+    setOrders((prevOrders) =>
+      prevOrders.filter((order) => order.order_id !== id)
+    );
 
-    alert("Order declined successfully.");
+    swal({
+      title: "Order Declined",
+      text: "You've declined the order",
+      icon: "success",
+      timer: 1700,
+      buttons: false 
+    });
 };
 
   if (loading) {
@@ -124,7 +122,7 @@ const AssignedOrdersForm = () => {
                         </button>
                         <button
                           className="btn btn-danger"
-                          onClick={() => handleDecline(order.id)}
+                          onClick={() => handleDecline(order.order_id)}
                           disabled={order.status !== 'Pending'}
                         >
                           Decline
