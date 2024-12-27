@@ -48,22 +48,22 @@ function ListOrders() {
         fetchOrders();
     }, []);
 
-    const handleOrderDetailsClick = async (orderId) => {
+    const handleOrderDetailsClick = async (id) => {
         const token = localStorage.getItem('authToken');
-
+    
         try {
-            const response = await fetch('https://backend-nourhandarwish-dev.apps.rm2.thpm.p1.openshiftapps.com/orderdetails', {
-                method: 'POST',
+            const response = await fetch(`https://backend-nourhandarwish-dev.apps.rm2.thpm.p1.openshiftapps.com/myorder/${id}`, {
+                method: 'GET', 
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}` 
                 },
-                body: JSON.stringify({ orderId })
             });
-
+    
             if (response.ok) {
                 const data = await response.json();
-                navigate('/orderDetails', { state: { orderData: data } });
+                console.log(data);
+                navigate('/orderDetails', { state: { orderData: data } }); 
             } else {
                 swal({
                     title: "Fetch Failed",
@@ -105,9 +105,9 @@ function ListOrders() {
                                         <tbody>
                                             {orders.map((order) => (
                                                 <tr key={order.id}>
-                                                   <td style={{ paddingTop: "25px" }}>{order.order_id}</td>
+                                                    <td style={{ paddingTop: "25px" }}>{order.order_id}</td>
                                                     <td>
-                                                        <span className={`badge ${
+                                                    <span className={`badge ${
                                                             order.status === 'Delivered'
                                                                 ? 'bg-success'
                                                                 : order.status === 'In Progress'
